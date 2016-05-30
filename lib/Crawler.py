@@ -20,12 +20,13 @@ class ContentPsr(RequestHdr):
             return
 
         super(ContentPsr, self).__init__(url) #call parent's constructor
+        self.source = self.http_GET()
+        self.soup = BeautifulSoup(self.source.text, 'lxml')
 
-    def parseTag(self, tagName):
-        source =  self.http_GET()
-        soup = BeautifulSoup(source.text, 'lxml')
-        return soup.select(tagName)
+    def parseTagContent2List(self, tagName):
+        return self.soup.select(tagName)
 
-
+    def extractSpecificContent2List(self, content, tag):
+        return content.select(tag)
 
 
